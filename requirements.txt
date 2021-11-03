@@ -1,6 +1,4 @@
-Flask==1.0.2
-
-
+Flask==0.10.1
 gunicorn==19.3.0
 itsdangerous==0.24
 Jinja2==2.7.3
@@ -9,6 +7,7 @@ Werkzeug==0.10.4
 
 
 requests==2.21.0
+Flask==1.0.2
 oauthlib==3.0.1
 pyOpenSSL==19.0.0
 Flask-Login==0.4.1
