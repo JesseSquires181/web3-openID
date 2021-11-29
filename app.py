@@ -74,6 +74,10 @@ def login():
     google_provider_cfg = get_google_provider_cfg()
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
 
+    base_url=request.base_url
+
+    if base_url.startswith("http:"):
+        base_url = "https:" + base_url[len("http:"):]
     # Use library to construct the request for Google login and provide
     # scopes that let you retrieve user's profile from Google
     request_uri = client.prepare_request_uri(
