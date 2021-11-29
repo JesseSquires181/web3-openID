@@ -81,6 +81,7 @@ def login():
         redirect_uri=request.base_url + "/callback",
         scope=["openid", "email", "profile"],
     )
+    app.loger.info('login redirect: %s', request_uri)
     return redirect(request_uri)
 
 @app.route("/login/callback")
