@@ -137,6 +137,7 @@ def callback():
 
     # Create a user in your db with the information provided
     # by Google
+    print("HEREEEEE")
     user = User(
         id_=unique_id, name=users_name, email=users_email, profile_pic=picture, role = User.DEFAULT_ROLE
     )
