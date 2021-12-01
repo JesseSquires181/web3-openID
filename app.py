@@ -49,7 +49,11 @@ print(f"client={client}")
 @login_manager.user_loader
 def load_user(user_id):
     return User.get(user_id)
-
+def httpsify(url):
+    https_url=url
+    if https_url.startswith("http:"):
+        https_url = "https:" + https_url[len("http:"):]
+    return https_url
 @app.route("/")
 def index():
     if current_user.is_authenticated:
@@ -74,10 +78,7 @@ def login():
     google_provider_cfg = get_google_provider_cfg()
     authorization_endpoint = google_provider_cfg["authorization_endpoint"]
 
-    base_url=request.base_url
-
-    if base_url.startswith("http:"):
-        base_url = "https:" + base_url[len("http:"):]
+    base_url=httpsify(request.base_url)
     # Use library to construct the request for Google login and provide
     # scopes that let you retrieve user's profile from Google
     request_uri = client.prepare_request_uri(
@@ -92,15 +93,17 @@ def login():
 def callback():
     # Get authorization code Google sent back to you
     code = request.args.get("code")
+    app.logger.info('login redirect: %s', request_uri)
     # Find out what URL to hit to get tokens that allow you to ask for
     # things on behalf of a user
     google_provider_cfg = get_google_provider_cfg()
     token_endpoint = google_provider_cfg["token_endpoint"]
     # Prepare and send a request to get tokens! Yay tokens!
+
     token_url, headers, body = client.prepare_token_request(
         token_endpoint,
-        authorization_response=request.url,
-        redirect_url=request.base_url,
+        authorization_response=httpsify(request.url),
+        redirect_url=httpsify(request.base_url),
         code=code
     )
     token_response = requests.post(
