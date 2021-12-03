@@ -38,5 +38,5 @@ class User(UserMixin):
             "VALUES (%s, %s, %s, %s, %s)",
             (id_, name, email, profile_pic, role),
         )
-        cursor.commit()
+        db.commit()
         cursor.close()
